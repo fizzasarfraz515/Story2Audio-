@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+service StoryToAudio {
+  rpc GenerateAudio(AudioRequest) returns (AudioResponse);
+}
+
+message AudioRequest {
+  string story_text = 1;
+  string accent = 2;
+  string gender = 3;
+  string emotion = 4;
+  string age_group = 5;
+}
+
+message AudioResponse {
+  string status = 1;
+  string audio_url = 2;
+  string error = 3;
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Story TTS Generator</title>
+</head>
+<body>
+    <h1>Text-to-Speech Generator</h1>
+    <form action="/generate" method="POST">
+        <label>Story Text:</label><br>
+        <textarea name="story_text" rows="5" cols="50" required></textarea><br><br>
+
+        <label>Accent:</label>
+        <select name="accent">
+            <option value="us">US</option>
+            <option value="uk">UK</option>
+            <option value="aus">Australia</option>
+            <option value="indian">India</option>
+        </select><br><br>
+
+        <label>Gender:</label>
+        <select name="gender">
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+            <option value="neutral">Neutral</option>
+        </select><br><br>
+
+        <label>Emotion (not used yet):</label>
+        <input type="text" name="emotion"><br><br>
+
+        <label>Age Group (not used yet):</label>
+        <input type="text" name="age_group"><br><br>
+
+        <input type="submit" value="Generate Audio">
+    </form>
+
+    {% if audio_url %}
+    <h2>Generated Audio:</h2>
+    <audio controls>
+        <source src="{{ audio_url }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Story2Audio</title>
+    <script src="https://unpkg.com/wavesurfer.js"></script>
+    <style>
+        /* body {
+            font-family: Arial, sans-serif;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            margin: 0;
+            padding: 0;
+        } */
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://wallpaperaccess.com/full/2738289.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .form-container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: #ff69b4;
+            text-align: center;
+            text-shadow: 1px 1px 5px #000;
+        }
+
+        textarea, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1rem;
+        }
+
+        #waveform {
+            margin-top: 20px;
+            background: #fff;
+            border-radius: 5px;
+        }
+
+        #playButton {
+            display: none;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #playButton:hover {
+            background-color: #0056b3;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            color: #ccc;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎤🎶 Welcome to Story to Audio Generator 🎶🎤</h1>
+        <h1>🎤🎶 Story to Audio Generator 🎶🎤</h1>
+
+        <div class="form-container">
+            <form id="audioForm">
+                <textarea id="story_text" placeholder="Enter your story here..." required></textarea>
+
+                <label>Accent:</label>
+                <select id="accent">
+                    <option value="Select">Select</option>
+                    <option value="us">US</option>
+                    <option value="uk">UK</option>
+                    <option value="australia">Australia</option>
+                    <option value="hindi">Hindi</option>
+                </select>
+
+                <label>Gender:</label>
+                <select id="gender">
+                    <option value="Select">Select</option>
+                    <!-- <option value="Female">Female</option> -->
+                    <option value="Male">Male</option>
+                </select>
+
+                <label>Emotions:</label>
+                <select id="emotion" name="emotion">
+                    <option>Select</option>
+                    <option>Neutral</option>
+                </select>
+
+                <label>Age Group:</label>
+                <select id="age" name="age">
+                    <option>Select</option>
+                    <option>Adult</option>
+                </select>
+
+                <button type="submit">Generate Audio 🎧</button>
+            </form>
+
+            <div id="waveform"></div>
+            <button id="playButton">Play / Pause</button>
+        </div>
+
+        <div class="footer">
+            &copy; 2025 Story2Audio | Powered by Flask
+        </div>
+    </div>
+
+    <script>
+        let wavesurfer;
+
+        document.getElementById('audioForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const storyText = document.getElementById('story_text').value;
+            const accent = document.getElementById('accent').value;
+            const gender = document.getElementById('gender').value;
+
+            fetch('/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    story_text: storyText,
+                    accent: accent,
+                    gender: gender
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+
+                if (wavesurfer) wavesurfer.destroy();
+
+                wavesurfer = WaveSurfer.create({
+                    container: '#waveform',
+                    waveColor: '#00BFFF',
+                    progressColor: '#1E90FF',
+                    height: 100
+                });
+
+                wavesurfer.load(data.audio_url);
+                document.getElementById('playButton').style.display = 'block';
+                document.getElementById('playButton').onclick = () => wavesurfer.playPause();
+            })
+            .catch(err => {
+                alert("An error occurred.");
+                console.error(err);
+            });
+        });
+    </script>
+</body>
+</html>

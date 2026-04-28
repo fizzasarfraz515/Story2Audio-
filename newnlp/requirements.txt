@@ -1,0 +1,12 @@
+flask
+gradio
+grpcio
+grpcio-tools
+google-cloud-texttospeech
+gTTS
+numpy
+pillow
+matplotlib
+pyttsx3
+pygame
+pyaudio

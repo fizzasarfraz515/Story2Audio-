@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Story2Audio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://wallpaperaccess.com/full/2738289.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            color: #ff69b4;  /* Pink color */
+        }
+
+        .form-container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+            width: 100%;
+            max-width: 500px;
+            color: white;
+        }
+
+        .form-container input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #fff;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        label {
+            color: white;
+            font-weight: bold;
+        }
+
+        textarea {
+            resize: none;
+            height: 150px;
+            width: 95%;
+            display: block;
+            margin-right: auto;
+            padding: 10px 8px 10px 12px;
+        }
+
+        .form-container input[type="submit"] {
+            background-color: #4c82af;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .form-container input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+
+        .footer a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        audio {
+            margin-top: 20px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎤🎶 Welcome to the World of Audio 🎤🎶</h1>
+        <h1>🎤🎶 Story to Audio Generator 🎤🎶</h1>
+
+        <div class="form-container">
+            <form method="POST" action="/generate">
+                <textarea name="story_text" placeholder="Enter your story here..." required></textarea><br/>
+
+                <label for="accent">Select Accent:</label>
+                <select name="accent">
+                    <option value="us">US</option>
+                    <option value="uk">UK</option>
+                    <option value="aus">Australia</option>
+                    <option value="indian">Indian</option>
+                </select><br/>
+
+                <label for="gender">Select Gender:</label>
+                <select name="gender">
+                    <option value="Select">Neutral</option>
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                </select><br/>
+
+                <label for="emotion">Select Emotion:</label>
+                <select name="emotion">
+                    <!-- <option value="happy">Happy</option>
+                    <option value="sad">Sad</option> -->
+                    <option value="Select">Angry</option>
+                    <option value="neutral">Neutral</option>
+                </select><br/>
+
+                <label for="age_group">Select Age Group:</label>
+                <select name="age_group">
+                    <option value="Select">Kid</option>
+                    <option value="adult">Adult</option>
+                </select><br/>
+
+                <input type="submit" value="Generate Audio 🎧" />
+            </form>
+
+            {% if audio_url %}
+                <audio controls>
+                    <source src="{{ audio_url }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 Story2Audio | Powered by <a href="https://flask.palletsprojects.com/" target="_blank">Flask</a></p>
+    </div>
+
+</body>
+</html>
